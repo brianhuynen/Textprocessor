@@ -5,46 +5,45 @@ namespace TextProcessor
     public class WordCounter : IWordCountAnalyser
     {
         public WordCounter() { }
-
+        /// <summary>
+        /// Calculates highest word count in a given string of text
+        /// </summary>
+        /// <param name="inputText"></param>
+        /// <returns>An integer representing the highest word count</returns>
         public int CalculateHighestWordCount(string inputText)
         {
             var wordList = ConvertTextToList(inputText);
             return CountAllWords(wordList).FirstOrDefault().Count;
         }
-
+        /// <summary>
+        /// Calculates the word count of an input word in a given string of text
+        /// </summary>
+        /// <param name="inputText"></param>
+        /// <param name="word">A string representing the word to count its frequency of</param>
+        /// <returns>An integer representing the word cound of the input word</returns>
         public int CalculateWordCount(string inputText, string word)
         {
             var wordList = ConvertTextToList(inputText);
             var result = CountAllWords(wordList).Find(e => e.Word.Equals(word.ToLower()));
             return result == null ? 0 : result.Count;
         }
-        
+        /// <summary>
+        /// Gets the top N most counted words
+        /// </summary>
+        /// <param name="inputText"></param>
+        /// <param name="limiter">An integer representing the top N most counted words</param>
+        /// <returns></returns>
         public List<WordCountEntry> GetMostCountedWords(string inputText, int limiter)
         {
             var wordList = ConvertTextToList(inputText);
             List<WordCountEntry> result = CountAllWords(wordList).Take(limiter).ToList();
             return result;
         }
-
-        private List<WordCountEntry> CountAllWords(List<string> wordList)
-        {
-            List<WordCountEntry> wordCounts = new List<WordCountEntry>();
-            foreach (string word in wordList)
-            {
-                //Checks if the wordcount list already has an entry using the word
-                if (!wordCounts.Exists(e => e.Word.Equals(word))) //if it doesn't exist, add it to the list
-                {
-                    WordCountEntry wce = new WordCountEntry() { Word = word, Count = 1 };
-                    wordCounts.Add(wce);
-                }
-                else
-                {
-                    wordCounts.Find(e => e.Word.Equals(word)).Count++; //if it does exist, increase its counter by 1
-                }
-            }
-            return wordCounts.OrderByDescending(e => e.Count).ThenBy(e => e.Word).ToList();
-        }
-
+        /// <summary>
+        /// Method that splits a string of text into a list of words
+        /// </summary>
+        /// <param name="inputText"></param>
+        /// <returns></returns>
         public List<string> ConvertTextToList(string inputText)
         {
             //Trim the text to remove eventual unnecessary white spaces at the beginning or end of the text
@@ -64,7 +63,34 @@ namespace TextProcessor
             var convertedList = RemoveSymbolsAtBeginningOrEndOfEntry(wordlist);
             return convertedList;
         }
-
+        /// <summary>
+        /// Method that counts all words in a list of strings
+        /// </summary>
+        /// <param name="wordList"></param>
+        /// <returns></returns>
+        private List<WordCountEntry> CountAllWords(List<string> wordList)
+        {
+            List<WordCountEntry> wordCounts = new List<WordCountEntry>();
+            foreach (string word in wordList)
+            {
+                //Checks if the wordcount list already has an entry using the word
+                if (!wordCounts.Exists(e => e.Word.Equals(word))) //if it doesn't exist, add it to the list
+                {
+                    WordCountEntry wce = new WordCountEntry() { Word = word, Count = 1 };
+                    wordCounts.Add(wce);
+                }
+                else
+                {
+                    wordCounts.Find(e => e.Word.Equals(word)).Count++; //if it does exist, increase its counter by 1
+                }
+            }
+            return wordCounts.OrderByDescending(e => e.Count).ThenBy(e => e.Word).ToList();
+        }
+        /// <summary>
+        /// Method that removes the symbols at the beginning or end of the word
+        /// </summary>
+        /// <param name="wordList"></param>
+        /// <returns></returns>
         private List<string> RemoveSymbolsAtBeginningOrEndOfEntry(List<string> wordList)
         {
             List<string> newList = new List<string>();
@@ -90,7 +116,11 @@ namespace TextProcessor
         {
             return !e.Any(c => char.IsLetter(c));
         }
-
+        /// <summary>
+        /// Removes all symbols except apostrophes and hyphens in a text
+        /// </summary>
+        /// <param name="inputText"></param>
+        /// <returns></returns>
         private string RemoveSymbols(string inputText)
         {
             var sb = new StringBuilder();
@@ -102,11 +132,13 @@ namespace TextProcessor
             }
             return sb.ToString();
         }
-
-        public void PrintList<T>(IEnumerable<T> counts)
+        /// <summary>
+        /// Prints all entries of a list 
+        /// </summary>
+        public void PrintList<T>(IEnumerable<T> list)
         {
-            foreach (var count in counts)
-                Console.WriteLine(count.ToString());
+            foreach (var entry in list)
+                Console.WriteLine(entry.ToString());
         }
     }
 }

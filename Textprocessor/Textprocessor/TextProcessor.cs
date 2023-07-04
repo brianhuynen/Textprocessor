@@ -26,14 +26,14 @@ namespace TextProcessor
                 {
                     switch (choice)
                     {
-                        case 1:
+                        case 1: //Return word count of input word
                             string word = InputPrompt();
                             Console.WriteLine("\nSingle word  : " + wc.CalculateWordCount(inputText, word));
                             break;
-                        case 2:
+                        case 2: //Return highest word count
                             Console.WriteLine("\nHighest count: " + wc.CalculateHighestWordCount(inputText));
                             break;
-                        case 3:
+                        case 3: //Return top N most counted words
                             Console.WriteLine("\nPlease enter a number:");
                             bool done = false;
                             while (!done)
@@ -49,10 +49,10 @@ namespace TextProcessor
                                     Console.WriteLine("\nInvalid input");
                             }
                             break;
-                        case 4:
+                        case 4: //Terminate program
                             isRunning = false;
                             break;
-                        default:
+                        default: //In case invalid input is given
                             Console.WriteLine($"\n\"{choice} is not a valid command");
                             break;
 
@@ -64,7 +64,6 @@ namespace TextProcessor
         /// <summary>
         /// Prompts the user to input something in the console.
         /// </summary>
-        /// <param name="allowNumbers">If true, allow numerical input</param>
         /// <returns>String representing the input by the user</returns>
         public static string InputPrompt()
         {

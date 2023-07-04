@@ -5,14 +5,18 @@ namespace TextprocessorTests
 {
     public class TextProcessorTests
     {
+        //init WordCounter object
         WordCounter wc = new();
+        //for tests debugging purposes
         private readonly ITestOutputHelper output;
 
         public TextProcessorTests(ITestOutputHelper output)
         {
             this.output = output;
         }
-
+        /// <summary>
+        /// In a text where every word is enclosed in apostrophes, all apostrophes will be removed
+        /// </summary>
         [Fact]
         public void CheckHandlingOf_Apostrophes_WhenConverting_ToWordList1()
         {
@@ -30,7 +34,9 @@ namespace TextprocessorTests
 
             Assert.Equal(expected, actual);
         }
-
+        /// <summary>
+        /// In a text where every word is enclosed in apostrophes, all apostrophes will be removed except for apostrophes used in contractions
+        /// </summary>
         [Fact]
         public void CheckHandlingOf_Apostrophes_WhenConverting_ToWordList2()
         {
@@ -46,7 +52,9 @@ namespace TextprocessorTests
 
             Assert.Equal(expected, actual);
         }
-
+        /// <summary>
+        /// Hyphenated words should be preserved
+        /// </summary>
         [Fact]
         public void CheckHandlingOf_Hyphens_WhenConverting_ToWordList() 
         {
@@ -65,7 +73,9 @@ namespace TextprocessorTests
 
             Assert.Equal(expected, actual);
         }
-
+        /// <summary>
+        /// All interpunction should be removed from the word list, except for apostrophes in contractions and hyphens in hyphenations
+        /// </summary>
         [Fact]
         public void CheckHandlingOf_Interpunction_WhenConverting_ToWordList1()
         {
@@ -94,7 +104,10 @@ namespace TextprocessorTests
 
             Assert.Equal(expected, actual);
         }
-
+        /// <summary>
+        /// All interpunction should be removed from the word list, except for apostrophes in contractions and hyphens in hyphenations, 
+        /// as well as apostrophes/ hyphens that do not encapsulate a word 
+        /// </summary>
         [Fact]
         public void CheckHandlingOf_Interpunction_WhenConverting_ToWordList2()
         {
@@ -170,7 +183,9 @@ namespace TextprocessorTests
 
             Assert.Equal(expected, actual);
         }
-
+        /// <summary>
+        /// Tests for case insensitivity
+        /// </summary>
         [Fact]
         public void WordCountTest_IsCaseInsensitive2()
         {
@@ -181,7 +196,9 @@ namespace TextprocessorTests
 
             Assert.Equal(expected, actual);
         }
-
+        /// <summary>
+        /// Tests for case insensitivity and the correct word count
+        /// </summary>
         [Fact]
         public void MostCountedWordsTest1()
         {
